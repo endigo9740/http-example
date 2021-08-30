@@ -3,12 +3,16 @@
 // Generic HTTP method ---
 
 function httpGet(endpoint) {
-    return fetch(endpoint).then((response) => response.json());
+    return fetch(endpoint, { method: 'GET' }).then((response) => response.json());
 }
 
-// POST (stubbed)
-// PUT (stubbed)
-// DELETE (stubbed)
+// function httpPost() {} // stubbed
+
+// function httpPut() {} // stubbed
+
+function httpDelete(endpoint) {
+    return fetch(endpoint, { method: 'DELETE' }).then((response) => response.json());
+}
 
 // Append to DOM
 
@@ -29,10 +33,26 @@ function getMultiplePosts() {
     httpGet('https://jsonplaceholder.typicode.com/posts').then((res) => {
         let htmlString = '';
         for (let i = 0; i < res.length; i++) {
-            htmlString += `<article><h3>${res[i].title}</h3><p>${res[i].body}</p></article>`;
+            htmlString += `
+                <article>
+                    <h3>
+                        ${res[i].title}
+                        <button onclick="deletePost(${res[i].id})">X</button>
+                    </h3>
+                    <p>${res[i].body}</p>
+                </article>
+            `;
         }
         appendToDOM('elemPostsList', htmlString);
     });
+}
+
+function deletePost(postId) {
+    httpDelete(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+        .then(() => {
+            getMultiplePosts(); // refresh list
+            alert(`Post ID: ${postId} was deleted.`);
+        });
 }
 
 // Init ---
