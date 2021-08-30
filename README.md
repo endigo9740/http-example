@@ -1,2 +1,3 @@
-# http-example
-A tutoring resource demoing HTTP communication
+# HTTP Example
+
+A tutoring resource demoing HTTP communication.
