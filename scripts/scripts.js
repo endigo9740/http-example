@@ -1,44 +1,43 @@
-// Handle HTTP
+// HANDLE HTTP
+
+// Generic HTTP method ---
+
+function httpGet(endpoint) {
+    return fetch(endpoint).then((response) => response.json());
+}
+
+// POST (stubbed)
+// PUT (stubbed)
+// DELETE (stubbed)
+
+// Append to DOM
+
+function appendToDOM(elementId, htmlString) {
+    const elem = document.getElementById(elementId);
+    elem.innerHTML = htmlString;
+}
+
+// Query for Specific Data ---
 
 function getSinglePost() {
-    const elemPostSingle = document.getElementById('postSingle');
-    fetch('https://jsonplaceholder.typicode.com/posts/1')
-        .then((response) => response.json())
-        .then((res) => {
-            // Apply to the DOM
-            elemPostSingle.innerHTML = `
-                <article title="${res.id}">
-                    <h3>${res.title}</h3>
-                    <p>${res.body}</p>
-                </article>
-            `;
-        });
+    httpGet('https://jsonplaceholder.typicode.com/posts/1').then((res) => {
+        appendToDOM('postSingle', `<article title="${res.id}"><h3>${res.title}</h3><p>${res.body}</p></article>`);
+    });
 }
 
 function getMultiplePosts() {
-    const elemPostsList = document.getElementById('elemPostsList');
-    fetch('https://jsonplaceholder.typicode.com/posts')
-        .then((response) => response.json())
-        .then((res) => {
-            // Set default HTML markup (empty)
-            let postListMarkup = '';
-            // Append new markup for each post instance
-            for (let i = 0; i < res.length; i++) {
-                postListMarkup += `
-                    <article>
-                        <h3>${res[i].title}</h3>
-                        <p>${res[i].body}</p>
-                    </article>
-                `;
-            }
-            // Apply to the DOM
-            elemPostsList.innerHTML = postListMarkup;
-        });
+    httpGet('https://jsonplaceholder.typicode.com/posts').then((res) => {
+        let htmlString = '';
+        for (let i = 0; i < res.length; i++) {
+            htmlString += `<article><h3>${res[i].title}</h3><p>${res[i].body}</p></article>`;
+        }
+        appendToDOM('elemPostsList', htmlString);
+    });
 }
 
-// Boostrap
-function init() {
+// Init ---
+
+(() => {
     getSinglePost();
     getMultiplePosts();
-}
-init();
+})();
