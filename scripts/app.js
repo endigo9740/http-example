@@ -1,27 +1,6 @@
-// HANDLE HTTP
+// Core App
 
-// Generic HTTP method ---
-
-function httpGet(endpoint) {
-    return fetch(endpoint, { method: 'GET' }).then((response) => response.json());
-}
-
-// function httpPost() {} // stubbed
-
-// function httpPut() {} // stubbed
-
-function httpDelete(endpoint) {
-    return fetch(endpoint, { method: 'DELETE' }).then((response) => response.json());
-}
-
-// Append to DOM
-
-function appendToDOM(elementId, htmlString) {
-    const elem = document.getElementById(elementId);
-    elem.innerHTML = htmlString;
-}
-
-// Query for Specific Data ---
+// Blog CRUD ---
 
 function getSinglePost() {
     httpGet('https://jsonplaceholder.typicode.com/posts/1').then((res) => {
